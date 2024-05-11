@@ -1,14 +1,19 @@
 package com.example.project.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WeatherSearchResultVO {
 
     private String temperature;
     private String humidity;
     private String precipitation;
     private String windSpeed;
+    private String test;
     private String precipitation_type;
     private String skyCondition;
     private String presentationTime;
+    private List<WeatherInfoVO> items;
 
     public WeatherSearchResultVO() {
 
@@ -22,6 +27,7 @@ public class WeatherSearchResultVO {
         this.windSpeed = windSpeed;
         this.presentationTime = presentationTime;
         this.skyCondition = skyCondition;
+        this.items = items;
     }
 
     public String getTemperature() {return temperature;}
@@ -38,6 +44,8 @@ public class WeatherSearchResultVO {
     public void setSkyCondition(String skyCondition) {this.skyCondition = skyCondition;}
     public String getPresentationTime() {return presentationTime;}
     public void setPresentationTime(String presentationTime) {this.presentationTime = presentationTime;}
+    public List<WeatherInfoVO> getItems() {return items;}
+    public void setItems(List<WeatherInfoVO> items) {this.items = items;}
 
 
     public String toString() {
@@ -48,6 +56,7 @@ public class WeatherSearchResultVO {
                 + ", precipitation_type=" + precipitation_type
                 + ", skyCondition=" + skyCondition
                 + ", presentationTime=" + presentationTime
+                + ", items=" + items
                 + ", getTemperature()=" + getTemperature()
                 + ", getHumidity()=" + getHumidity()
                 + ", getPrecipitation()=" + getPrecipitation()
@@ -55,6 +64,7 @@ public class WeatherSearchResultVO {
                 + ", getPrecipitation_type()=" + getPrecipitation_type()
                 + ", getSkyCondition()=" + getSkyCondition()
                 + ", getPresentationTime()=" + getPresentationTime()
+                + ", getItems()=" + getItems()
                 + ", getClass()=" + getClass()
                 + ", hashCode()=" + hashCode()
                 + ", toString()=" + super.toString() + "]";
