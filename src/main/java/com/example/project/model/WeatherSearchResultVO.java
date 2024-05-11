@@ -9,7 +9,6 @@ public class WeatherSearchResultVO {
     private String humidity;
     private String precipitation;
     private String windSpeed;
-    private String test;
     private String precipitation_type;
     private String skyCondition;
     private String presentationTime;
