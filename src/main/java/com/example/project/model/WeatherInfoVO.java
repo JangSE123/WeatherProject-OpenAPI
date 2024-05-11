@@ -14,6 +14,7 @@ public class WeatherInfoVO {
     private String fcstDate;
     private String fcstTime;
     private String fcstValue;
+    private String address;
 
     public String getResultMsg() {return resultMsg;}
     public void setResultMsg(String resultMsg) {this.resultMsg = resultMsg;}
@@ -39,7 +40,8 @@ public class WeatherInfoVO {
     public void setFcstTime(String fcstTime) {this.fcstTime = fcstTime;}
     public String getFcstValue() {return fcstValue;}
     public void setFcstValue(String fcstValue) {this.fcstValue = fcstValue;}
-
+    public String getAddress() {return address;}
+    public void setAddress(String address) {this.address = address;}
 
 
     public String toString() {
@@ -55,6 +57,7 @@ public class WeatherInfoVO {
                 + ", fcstDate=" + fcstDate
                 + ", fcstTime=" + fcstTime
                 + ", fcstValue=" + fcstValue
+                + ", address=" + address
                 + ", getresultCode()=" + getResultCode()
                 + ", getResultMsg()=" + getResultMsg()
                 + ", getDataType()=" + getDataType()
@@ -67,6 +70,7 @@ public class WeatherInfoVO {
                 + ", getFcstDate()=" + getFcstDate()
                 + ", getFcstTime()=" + getFcstTime()
                 + ", getFcstValue()=" + getFcstValue()
+                + ", getAddress()=" + getAddress()
                 + ", getClass()=" + getClass()
                 + ", hashCode()=" + hashCode()
                 + ", toString()=" + super.toString() + "]";
