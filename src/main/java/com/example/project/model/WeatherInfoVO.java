@@ -11,6 +11,9 @@ public class WeatherInfoVO {
     private int nx;
     private int ny;
     private String obsrValue;
+    private String fcstDate;
+    private String fcstTime;
+    private String fcstValue;
 
     public String getResultMsg() {return resultMsg;}
     public void setResultMsg(String resultMsg) {this.resultMsg = resultMsg;}
@@ -30,6 +33,14 @@ public class WeatherInfoVO {
     public void setNy(int ny) {this.ny = ny;}
     public String getObsrValue() {return obsrValue;}
     public void setObsrValue(String obsrValue) {this.obsrValue = obsrValue;}
+    public String getFcstDate() {return fcstDate;}
+    public void setFcstDate(String fcstDate) {this.fcstDate = fcstDate;}
+    public String getFcstTime() {return fcstTime;}
+    public void setFcstTime(String fcstTime) {this.fcstTime = fcstTime;}
+    public String getFcstValue() {return fcstValue;}
+    public void setFcstValue(String fcstValue) {this.fcstValue = fcstValue;}
+
+
 
     public String toString() {
         return "WeatherInfoVO [resultCode=" + resultCode
@@ -41,6 +52,9 @@ public class WeatherInfoVO {
                 + ", nx=" + nx
                 + ", ny=" + ny
                 + ", obsrValue=" + obsrValue
+                + ", fcstDate=" + fcstDate
+                + ", fcstTime=" + fcstTime
+                + ", fcstValue=" + fcstValue
                 + ", getresultCode()=" + getResultCode()
                 + ", getResultMsg()=" + getResultMsg()
                 + ", getDataType()=" + getDataType()
@@ -50,6 +64,9 @@ public class WeatherInfoVO {
                 + ", getNx()=" + getNx()
                 + ", getNy()=" + getNy()
                 + ", getObsrValue()=" + getObsrValue()
+                + ", getFcstDate()=" + getFcstDate()
+                + ", getFcstTime()=" + getFcstTime()
+                + ", getFcstValue()=" + getFcstValue()
                 + ", getClass()=" + getClass()
                 + ", hashCode()=" + hashCode()
                 + ", toString()=" + super.toString() + "]";

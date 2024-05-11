@@ -7,6 +7,8 @@ public class WeatherSearchResultVO {
     private String precipitation;
     private String windSpeed;
     private String precipitation_type;
+    private String skyCondition;
+    private String presentationTime;
 
     public WeatherSearchResultVO() {
 
@@ -18,6 +20,8 @@ public class WeatherSearchResultVO {
         this.precipitation = precipitation;
         this.humidity = humidity;
         this.windSpeed = windSpeed;
+        this.presentationTime = presentationTime;
+        this.skyCondition = skyCondition;
     }
 
     public String getTemperature() {return temperature;}
@@ -30,6 +34,11 @@ public class WeatherSearchResultVO {
     public void setWindSpeed(String windSpeed) {this.windSpeed = windSpeed;}
     public String getPrecipitation_type() {return precipitation_type;}
     public void setPrecipitation_type(String precipitation_type) {this.precipitation_type = precipitation_type;}
+    public String getSkyCondition() {return skyCondition;}
+    public void setSkyCondition(String skyCondition) {this.skyCondition = skyCondition;}
+    public String getPresentationTime() {return presentationTime;}
+    public void setPresentationTime(String presentationTime) {this.presentationTime = presentationTime;}
+
 
     public String toString() {
         return "WeatherSearchResultVO [temperature=" + temperature
@@ -37,11 +46,15 @@ public class WeatherSearchResultVO {
                 + ", precipitation=" + precipitation
                 + ", windSpeed=" + windSpeed
                 + ", precipitation_type=" + precipitation_type
+                + ", skyCondition=" + skyCondition
+                + ", presentationTime=" + presentationTime
                 + ", getTemperature()=" + getTemperature()
                 + ", getHumidity()=" + getHumidity()
                 + ", getPrecipitation()=" + getPrecipitation()
                 + ", getWindSpeed()=" + getWindSpeed()
                 + ", getPrecipitation_type()=" + getPrecipitation_type()
+                + ", getSkyCondition()=" + getSkyCondition()
+                + ", getPresentationTime()=" + getPresentationTime()
                 + ", getClass()=" + getClass()
                 + ", hashCode()=" + hashCode()
                 + ", toString()=" + super.toString() + "]";
