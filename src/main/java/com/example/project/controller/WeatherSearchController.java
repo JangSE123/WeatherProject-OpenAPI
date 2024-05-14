@@ -6,6 +6,7 @@ import com.example.project.model.WeatherInfoVO;
 import com.example.project.service.WeatherSearchService;
 import jakarta.annotation.Resource;
 import jakarta.websocket.server.PathParam;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Controller
 public class WeatherSearchController {
 
     @Resource(name = "weatherSearchService")
