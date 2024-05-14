@@ -19,7 +19,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' // 추가
-	implementation 'javax.servlet:jstl' // 추가
+	implementation 'javax.servlet:jstl:1.2' // 추가
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat' // jsp 사용시 필수 요소

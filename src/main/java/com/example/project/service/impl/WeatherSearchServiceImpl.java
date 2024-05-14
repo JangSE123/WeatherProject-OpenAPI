@@ -1,8 +1,8 @@
 package com.example.project.service.impl;
 
 import com.example.project.adapter.WeatherInfoSearchInterface;
+import com.example.project.model.ResponseVO;
 import com.example.project.model.WeatherInfoVO;
-import com.example.project.model.WeatherSearchResultVO;
 import com.example.project.service.WeatherSearchService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -18,10 +18,10 @@ public class WeatherSearchServiceImpl implements WeatherSearchService {
     public List<WeatherInfoVO> searchWeatherList (String urlBuilder ) throws Exception {
         String responseBody = weatherSearchInterface.getWeatherInfo(urlBuilder);
         ObjectMapper mapper = new ObjectMapper();
-        WeatherSearchResultVO resultVO = null;
+        ResponseVO resultVO = null;
 
         try {
-            resultVO = mapper.readValue(responseBody, WeatherSearchResultVO.class);
+            resultVO = mapper.readValue(responseBody, ResponseVO.class);
         } catch (JsonMappingException e) {
             throw new Exception("JSON 에러 : " + e);
         } catch (JsonProcessingException e) {
