@@ -1,29 +1,39 @@
 package com.example.project.model;
 
-import java.util.List;
-
 public class ResponseVO {
-    private ResponseVO response;
+    private HeaderVO header;
+    private BodyVO body;
+
 
     public ResponseVO(){}
 
-    public ResponseVO(ResponseVO response){
-        this.response = response;
+    public ResponseVO(BodyVO body, HeaderVO header){
+        this.header = header;
+        this.body = body;
     }
 
-    public ResponseVO getResponse() {
-        return response;
+    public HeaderVO getHeader() {
+        return header;
     }
-    public void setResponse(ResponseVO response) {
-        this.response = response;
+    public void setHeader(HeaderVO header) {
+        this.header = header;
     }
+    public BodyVO getBody() {
+        return body;
+    }
+    public void setBody(BodyVO body) {
+        this.body = body;
+    }
+
 
     public String toString() {
-        return "WeatherSearchResultVO {response=" + response
-                + ", getResponse()=" + getResponse()
-                + ", getClass()=" + getClass()
+        return "WeatherSearchResultVO {header=" + header
+                + ", body=" + body
+                + ", getHeader()=" + getHeader()
+                + ", getBody()=" + getBody()
                 + ", hashCode()=" + hashCode()
                 + ", toString()=" + super.toString() + "}";
     }
+
 
 }
