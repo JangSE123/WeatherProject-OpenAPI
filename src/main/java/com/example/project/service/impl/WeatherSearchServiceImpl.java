@@ -20,6 +20,7 @@ public class WeatherSearchServiceImpl implements WeatherSearchService {
         ObjectMapper mapper = new ObjectMapper();
         ResponseVO resultVO = null;
 
+
         try {
             resultVO = mapper.readValue(responseBody, ResponseVO.class);
         } catch (JsonMappingException e) {
@@ -28,11 +29,20 @@ public class WeatherSearchServiceImpl implements WeatherSearchService {
             throw new Exception("JSON 에러 : " + e);
         }
 
-        List<WeatherInfoVO> weathers = resultVO.getItems();
+        List<WeatherInfoVO> weathers = resultVO.getBody().getItems().getItem();
 
         for (int i = 0; i < weathers.size(); i++) {
-            WeatherInfoVO weatherInfo = weathers.get(i);
-            System.out.println(i+"==>" + weatherInfo.getAddress());
+            WeatherInfoVO weatherInfo = new WeatherInfoVO();
+            weatherInfo.setBaseDate(weathers.get(i).getBaseDate());
+            weatherInfo.setBaseTime(weathers.get(i).getBaseTime());
+            weatherInfo.setCategory(weathers.get(i).getCategory());
+            weatherInfo.setFcstDate(weathers.get(i).getFcstDate());
+            weatherInfo.setFcstTime(weathers.get(i).getFcstTime());
+            weatherInfo.setFcstValue(weathers.get(i).getFcstValue());
+            weatherInfo.setNx(weathers.get(i).getNx());
+            weatherInfo.setNy(weathers.get(i).getNy());
+
+            System.out.println(i + "==>" + weatherInfo);
         }
         return weathers;
     }
