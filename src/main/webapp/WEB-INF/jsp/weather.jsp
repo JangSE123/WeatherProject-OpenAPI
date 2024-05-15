@@ -1,3 +1,4 @@
+<%@ page import="com.example.project.model.ParamDTO" %>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,6 +22,15 @@
         <input type="submit" value="검색하기">
     </form>
 </table>
+
+<%
+    // JSTL을 사용하여 파라미터 값을 DTO에 설정
+    ParamDTO paramDTO = new ParamDTO();
+    paramDTO.setBaseDate(request.getParameter("baseDate"));
+    paramDTO.setBaseTime(request.getParameter("baseTime"));
+    paramDTO.setNx(request.getParameter("Nx"));
+    paramDTO.setNy(request.getParameter("Ny"));
+%>
 
 </body>
 </html>

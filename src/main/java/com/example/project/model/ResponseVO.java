@@ -1,6 +1,7 @@
 package com.example.project.model;
 
 public class ResponseVO {
+
     private HeaderVO header;
     private BodyVO body;
 
@@ -34,6 +35,5 @@ public class ResponseVO {
                 + ", hashCode()=" + hashCode()
                 + ", toString()=" + super.toString() + "}";
     }
-
 
 }
