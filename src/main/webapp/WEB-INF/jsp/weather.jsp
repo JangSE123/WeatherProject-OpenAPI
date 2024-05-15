@@ -15,8 +15,8 @@
 <h3>기상청 오픈 API를 활용한 단기 날씨 현황 검색 하기 </h3>
 <table>
     <form action="/weathersearch">
-        현재 날짜  : <input name='baseDate' type='text' required/>
-        현재 시간  : <input name='baseTime' type='text' required/>
+        <input name='baseDate' type='hidden' value='<%= com.example.project.model.ChangeValueVO.getAutoBaseDate() %>' required/>
+        <input name='baseTime' type='hidden' value='<%= com.example.project.model.ChangeValueVO.getAutoBaseTime() %>' required/>
         그리드 X  : <input name='Nx' type='text' required/>
         그리드 Y  : <input name='Ny' type='text' required/>
         <input type="submit" value="검색하기">
