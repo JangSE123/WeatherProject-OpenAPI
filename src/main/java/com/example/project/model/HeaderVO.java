@@ -27,7 +27,7 @@ public class HeaderVO {
     }
 
     public String toString(){
-        return "BodyVo {resultCode=" + resultCode
+        return "HeaderVo {resultCode=" + resultCode
                 + ", resultMsg=" + resultMsg
                 + ", getResultCode()=" + getResultCode()
                 + ", getResultMsg()=" + getResultMsg()
