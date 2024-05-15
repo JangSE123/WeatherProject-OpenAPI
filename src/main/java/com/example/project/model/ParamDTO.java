@@ -1,19 +1,34 @@
-//package com.example.project.model;
-//
-//public class ParamDTO {
-//
-//    String base_date;
-//    String base_time;
-//    String nx;
-//    String ny;
-//
-//    public String getBase_date() {return base_date;}
-//    public void setBase_date(String base_date) {this.base_date = base_date;}
-//    public String getBase_time() {return base_time;}
-//    public void setBase_time(String base_time) {this.base_time = base_time;}
-//    public String getNx() {return nx;}
-//    public void setNx(String nx) {this.nx = nx;}
-//    public String getNy() {return ny;}
-//    public void setNy(String ny) {this.ny = ny;}
-//
-//}
+package com.example.project.model;
+
+public class ParamDTO {
+
+    String baseDate;
+    String baseTime;
+    String Nx;
+    String Ny;
+
+    public String getBaseDate() {
+        return baseDate;
+    }
+    public void setBaseDate(String baseDate) {
+        this.baseDate = baseDate;
+    }
+    public String getBaseTime() {
+        return baseTime;
+    }
+    public void setBaseTime(String baseTime) {
+        this.baseTime = baseTime;
+    }
+    public String getNx() {
+        return Nx;
+    }
+    public void setNx(String nx) {
+        Nx = nx;
+    }
+    public String getNy() {
+        return Ny;
+    }
+    public void setNy(String ny) {
+        Ny = ny;
+    }
+}
