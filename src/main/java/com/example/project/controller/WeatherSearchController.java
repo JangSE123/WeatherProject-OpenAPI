@@ -1,6 +1,6 @@
 package com.example.project.controller;
 
-
+import com.example.project.changeValue.CoordinateConverter;
 import com.example.project.model.ParamDTO;
 import com.example.project.model.WeatherInfoVO;
 import com.example.project.service.WeatherSearchService;
@@ -9,11 +9,17 @@ import jakarta.websocket.server.PathParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.io.UnsupportedEncodingException;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import com.google.gson.*;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +70,17 @@ public class WeatherSearchController {
 //        urlBuilder.append("&" + URLEncoder.encode("ny","UTF-8") + "=" + URLEncoder.encode(Ny, "UTF-8")); /*예보지점의 Y 좌표값*/
 
         List<WeatherInfoVO> weathers = weatherSearchService.searchWeatherList(urlBuilder.toString());
+
+        // 발표시간이 같은 데이터를 그룹화하는 맵
+        Map<String, List<WeatherInfoVO>> groupedWeathers = new HashMap<>();
+        for (WeatherInfoVO weather : weathers) {
+            String fcstTime = weather.getFcstTime();
+            if (!groupedWeathers.containsKey(fcstTime)) {
+                groupedWeathers.put(fcstTime, new ArrayList<>());
+            }
+            groupedWeathers.get(fcstTime).add(weather);
+        }
+        model.addAttribute("groupedWeathers", groupedWeathers);
 
         System.out.println(" URL ==> "+urlBuilder);
 
