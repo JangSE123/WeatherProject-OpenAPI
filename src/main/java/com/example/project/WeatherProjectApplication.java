@@ -1,5 +1,6 @@
 package com.example.project;
 
+import com.example.project.controller.MapController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

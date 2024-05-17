@@ -46,7 +46,6 @@
             <td><c:out value="${weather.fcstValue}"/> </td>
             <td><c:out value="${weather.nx}"/> </td>
             <td><c:out value="${weather.ny}"/> </td>
-
         </tr>
     </c:forEach>
     </tbody>
