@@ -1,36 +1,16 @@
-<%@ page import="com.example.project.model.ParamDTO" %>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Weather Search</title>
+    <meta charset="UTF-8">
+    <title>Address Search</title>
 </head>
 <body>
-<style>
-    input {
-        margin: 2px;
-    }
-</style>
-<h3>기상청 오픈 API를 활용한 단기 날씨 현황 검색 하기 </h3>
-<table>
-    <form action="/weathersearch">
-        <input name='baseDate' type='hidden' value='<%= com.example.project.model.ChangeValueVO.getAutoBaseDate() %>' required/>
-        <input name='baseTime' type='hidden' value='<%= com.example.project.model.ChangeValueVO.getAutoBaseTime() %>' required/>
-        그리드 X  : <input name='Nx' type='text' required/>
-        그리드 Y  : <input name='Ny' type='text' required/>
-        <input type="submit" value="검색하기">
-    </form>
-</table>
-
-<%
-    // JSTL을 사용하여 파라미터 값을 DTO에 설정
-    ParamDTO paramDTO = new ParamDTO();
-    paramDTO.setBaseDate(request.getParameter("baseDate"));
-    paramDTO.setBaseTime(request.getParameter("baseTime"));
-    paramDTO.setNx(request.getParameter("Nx"));
-    paramDTO.setNy(request.getParameter("Ny"));
-%>
-
+<h2>주소 검색</h2>
+<form action="/search" method="post">
+    <input type="text" name="address" placeholder="검색할 주소를 입력하세요">
+    <button type="submit">검색</button>
+</form>
+<p style="color: red;"><c:out value="${error}" /></p>
 </body>
 </html>

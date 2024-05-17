@@ -1,6 +1,7 @@
 package com.example.project.controller;
 
 import com.example.project.changeValue.CoordinateConverter;
+import com.example.project.model.GridXYVO;
 import com.example.project.model.ParamDTO;
 import com.example.project.model.WeatherInfoVO;
 import com.example.project.service.WeatherSearchService;
@@ -8,9 +9,8 @@ import jakarta.annotation.Resource;
 import jakarta.websocket.server.PathParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,63 +30,108 @@ public class WeatherSearchController {
     @Resource(name = "weatherSearchService")
     private WeatherSearchService weatherSearchService;
 
-    @RequestMapping(value = "/weather")
-    public String weather() throws Exception{
+    @GetMapping("/weather")
+    public String showSearchForm() {
         return "weather";
     }
 
-    @RequestMapping(value = "weathersearch")
-    public String weatherSearchList(ParamDTO params, Model model) throws Exception{
-//    public String weatherSearchList(String baseDate,String baseTime, String Nx, String Ny, Model model) throws Exception{
+    @PostMapping("/search")
+    public String searchAddressAndWeather(@RequestParam("address") String address, Model model) {
+        try {
+            // GridXYVO 클래스의 주소 검색 메서드 호출
+            GridXYVO mapTest = new GridXYVO();
+            GridXYVO.CoordinateConverter coordinateConverter = new GridXYVO.CoordinateConverter();
 
-        // @PathParam("nx")string nx
-        //http://localhost:8080/weathersearch?nx="12"&ny=52
+            // 주소 검색 결과 가져오기
+            JsonObject addressInfo = mapTest.searchAddress(address);
+            if (addressInfo != null) {
+                if (addressInfo.has("addresses") && addressInfo.getAsJsonArray("addresses").size() > 0) {
+                    JsonObject firstAddress = addressInfo.getAsJsonArray("addresses").get(0).getAsJsonObject();
+                    double latitude = firstAddress.get("y").getAsDouble();
+                    double longitude = firstAddress.get("x").getAsDouble();
+                    int[] grid = coordinateConverter.toGrid(latitude, longitude);
 
-        // 기상청 API service Key값, 받아올 자료 URL 설정
-        String serviceKey = "=yuuAIagVrMk4nnZy2%2Fy47WSlSR6qihjxhcjfgbeNq5%2BeNCpfO%2FvoIwRuplGaBHclEUKpYaAmKL6aoxBKPfZqSw%3D%3D";
-        String URL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst";
+                    // 그리드 값을 파라미터 DTO에 추가
+                    ParamDTO paramDTO = new ParamDTO();
+                    paramDTO.setNx(String.valueOf(grid[0]));
+                    paramDTO.setNy(String.valueOf(grid[1]));
+                    paramDTO.setBaseDate(com.example.project.model.ChangeValueVO.getAutoBaseDate());
+                    paramDTO.setBaseTime(com.example.project.model.ChangeValueVO.getAutoBaseTime());
 
-//        //검색어 Encoding
-//        try {
-//            params.getParma1();
-//            keyword = URLEncoder.encode(keyword, "UTF-8");
-//        } catch (UnsupportedEncodingException e) {
-//            throw new RuntimeException("검색어 인코딩 실패",e);
-//        }
+                    // 기상청 API service Key값, 받아올 자료 URL 설정
+                    String serviceKey = "=yuuAIagVrMk4nnZy2%2Fy47WSlSR6qihjxhcjfgbeNq5%2BeNCpfO%2FvoIwRuplGaBHclEUKpYaAmKL6aoxBKPfZqSw%3D%3D";
+                    String URL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst";
 
-        //URI 및 WEB에서 설정한 값 설정
-        StringBuilder urlBuilder = new StringBuilder(URL); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + serviceKey); /*Service Key*/
-        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("1000", "UTF-8")); /*한 페이지 결과 수*/
-        urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON) Default: XML*/
-        urlBuilder.append("&" + URLEncoder.encode("base_date","UTF-8") + "=" + URLEncoder.encode(params.getBaseDate(), "UTF-8")); /*‘21년 6월 28일 발표*/
-        urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode(params.getBaseTime(), "UTF-8")); /*06시 발표(정시단위) */
-        urlBuilder.append("&" + URLEncoder.encode("nx","UTF-8") + "=" + URLEncoder.encode(params.getNx(), "UTF-8")); /*예보지점의 X 좌표값*/
-        urlBuilder.append("&" + URLEncoder.encode("ny","UTF-8") + "=" + URLEncoder.encode(params.getNy(), "UTF-8")); /*예보지점의 Y 좌표값*/
-//        urlBuilder.append("&" + URLEncoder.encode("base_date","UTF-8") + "=" + URLEncoder.encode(baseDate, "UTF-8")); /*‘21년 6월 28일 발표*/
-//        urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode(baseTime, "UTF-8")); /*06시 발표(정시단위) */
-//        urlBuilder.append("&" + URLEncoder.encode("nx","UTF-8") + "=" + URLEncoder.encode(Nx, "UTF-8")); /*예보지점의 X 좌표값*/
-//        urlBuilder.append("&" + URLEncoder.encode("ny","UTF-8") + "=" + URLEncoder.encode(Ny, "UTF-8")); /*예보지점의 Y 좌표값*/
+                    // URI 및 WEB에서 설정한 값 설정
+                    StringBuilder urlBuilder = new StringBuilder(URL); /*URL*/
+                    urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + serviceKey); /*Service Key*/
+                    urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
+                    urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("1000", "UTF-8")); /*한 페이지 결과 수*/
+                    urlBuilder.append("&" + URLEncoder.encode("dataType", "UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON) Default: XML*/
+                    urlBuilder.append("&" + URLEncoder.encode("base_date", "UTF-8") + "=" + URLEncoder.encode(paramDTO.getBaseDate(), "UTF-8")); /*‘21년 6월 28일 발표*/
+                    urlBuilder.append("&" + URLEncoder.encode("base_time", "UTF-8") + "=" + URLEncoder.encode(paramDTO.getBaseTime(), "UTF-8")); /*06시 발표(정시단위) */
+                    urlBuilder.append("&" + URLEncoder.encode("nx", "UTF-8") + "=" + URLEncoder.encode(paramDTO.getNx(), "UTF-8")); /*예보지점의 X 좌표값*/
+                    urlBuilder.append("&" + URLEncoder.encode("ny", "UTF-8") + "=" + URLEncoder.encode(paramDTO.getNy(), "UTF-8")); /*예보지점의 Y 좌표값*/
 
-        List<WeatherInfoVO> weathers = weatherSearchService.searchWeatherList(urlBuilder.toString());
+                    List<WeatherInfoVO> weathers = weatherSearchService.searchWeatherList(urlBuilder.toString());
 
-        // 발표시간이 같은 데이터를 그룹화하는 맵
-        Map<String, List<WeatherInfoVO>> groupedWeathers = new HashMap<>();
-        for (WeatherInfoVO weather : weathers) {
-            String fcstTime = weather.getFcstTime();
-            if (!groupedWeathers.containsKey(fcstTime)) {
-                groupedWeathers.put(fcstTime, new ArrayList<>());
+                    System.out.println(" URL ==> " + urlBuilder);
+
+                    model.addAttribute("weathers", weathers);
+                    return "weatherSearchResult";
+                } else {
+                    model.addAttribute("error", "검색 결과가 없습니다.");
+                }
+            } else {
+                model.addAttribute("error", "주소 정보를 불러올 수 없습니다.");
             }
-            groupedWeathers.get(fcstTime).add(weather);
+        } catch (Exception e) {
+            // 오류 처리
+            e.printStackTrace();  // 콘솔에 예외 스택 트레이스를 출력하여 디버깅에 도움
+            model.addAttribute("error", "검색 중 오류가 발생했습니다: " + e.getMessage());
         }
-        model.addAttribute("groupedWeathers", groupedWeathers);
-
-        System.out.println(" URL ==> "+urlBuilder);
-
-        model.addAttribute("weathers", weathers);
-
-        return "weatherSearchResult";
-
+        return "weather";
     }
 }
+//
+//
+//
+//        JsonObject addressInfo = mapTest.searchAddress(address);
+//        if (addressInfo != null) {
+//            if (addressInfo.has("addresses") && addressInfo.getAsJsonArray("addresses").size() > 0) {
+//                JsonObject firstAddress = addressInfo.getAsJsonArray("addresses").get(0).getAsJsonObject();
+//                double latitude = firstAddress.get("y").getAsDouble();
+//                double longitude = firstAddress.get("x").getAsDouble();
+//                int[] grid = coordinateConverter.toGrid(latitude, longitude);
+//
+//
+//                // 그리드 값을 파라미터 DTO에 추가
+//        ParamDTO paramDTO = new ParamDTO();
+//        paramDTO.setNx(String.valueOf(grid[0]));
+//        paramDTO.setNy(String.valueOf(grid[1]));
+//        paramDTO.setBaseDate(com.example.project.model.ChangeValueVO.getAutoBaseDate());
+//        paramDTO.setBaseTime(com.example.project.model.ChangeValueVO.getAutoBaseTime());
+//
+//
+//        String serviceKey = "=yuuAIagVrMk4nnZy2%2Fy47WSlSR6qihjxhcjfgbeNq5%2BeNCpfO%2FvoIwRuplGaBHclEUKpYaAmKL6aoxBKPfZqSw%3D%3D";
+//        String URL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst";
+//
+//        //URI 및 WEB에서 설정한 값 설정
+//        StringBuilder urlBuilder = new StringBuilder(URL); /*URL*/
+//        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + serviceKey); /*Service Key*/
+//        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
+//        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("1000", "UTF-8")); /*한 페이지 결과 수*/
+//        urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON) Default: XML*/
+//        urlBuilder.append("&" + URLEncoder.encode("base_date","UTF-8") + "=" + URLEncoder.encode(params.getBaseDate(), "UTF-8")); /*‘21년 6월 28일 발표*/
+//        urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode(params.getBaseTime(), "UTF-8")); /*06시 발표(정시단위) */
+//        urlBuilder.append("&" + URLEncoder.encode("nx","UTF-8") + "=" + URLEncoder.encode(params.getNx(), "UTF-8")); /*예보지점의 X 좌표값*/
+//        urlBuilder.append("&" + URLEncoder.encode("ny","UTF-8") + "=" + URLEncoder.encode(params.getNy(), "UTF-8")); /*예보지점의 Y 좌표값*/
+//
+//
+//        List<WeatherInfoVO> weathers = weatherSearchService.searchWeatherList(urlBuilder.toString());
+//        System.out.println(" URL ==> "+urlBuilder);
+//        model.addAttribute("weathers", weathers);
+//        return "weatherSearchResult";
+//
+//    }
+//}
