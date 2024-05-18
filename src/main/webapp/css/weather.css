@@ -1,1 +1,11 @@
-dfdfd
+#searching{
+    font-size: 22px;
+    font-weight: 900;
+    text-align: center;
+    color: #ff8b88;
+}
+#search-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
