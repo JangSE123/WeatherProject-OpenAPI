@@ -19,7 +19,8 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' // 추가
-//	implementation 'javax.servlet:jstl:1.2' // 추가
+	implementation 'com.google.code.gson:gson:2.8.8' // 최신 버전 확인 필요
+//  implementation 'javax.servlet:jstl:1.2' // 추가
 	implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '2.0.0'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -34,4 +35,3 @@ tasks.named('test') {
 tasks.withType(JavaCompile).configureEach {
 	options.compilerArgs << "-parameters"
 }
-
