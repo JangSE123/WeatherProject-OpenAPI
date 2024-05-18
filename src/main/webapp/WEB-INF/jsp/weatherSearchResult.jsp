@@ -79,7 +79,7 @@
                     <th>시간</th>
                     <th>온도</th>
                     <th>하늘상태</th>
-                    <th>습도</th>
+                    <th>습도122</th>
                     <th>강수량<span style="font-size: 80%;">(h)</span></th>
                     <th>강수형태</th>
                     <th>풍향</th>
